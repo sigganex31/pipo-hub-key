@@ -1,0 +1,25 @@
+name: Gunluk Key Secici
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Her gün gece yarısı 00:00'da çalışır
+  workflow_dispatch:
+
+jobs:
+  update-key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodlari İndir
+        uses: actions/checkout@v3
+
+      - name: Rastgele Key Seç ve Güncelle
+        run: |
+          # keys.txt içerisinden rastgele bir satır seçer
+          RANDOM_KEY="$(shuf -n 1 keys.txt)"
+          echo "$RANDOM_KEY" > guncel_key.txt
+          
+          git config --global user.name "PipoBot"
+          git config --global user.email "bot@pipo.com"
+          git add guncel_key.txt
+          git commit -m "Günlük key otomatik güncellendi" || exit 0
+          git push
