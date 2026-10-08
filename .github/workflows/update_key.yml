@@ -5,16 +5,18 @@ on:
     - cron: '0 0 * * *' # Her gün gece yarısı 00:00'da çalışır
   workflow_dispatch:
 
+permissions:
+  contents: write # Depoya geri dosya yazabilmesi için şarttır
+
 jobs:
   update-key:
     runs-on: ubuntu-latest
     steps:
       - name: Kodlari İndir
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Rastgele Key Seç ve Güncelle
         run: |
-          # keys.txt içerisinden rastgele bir satır seçer
           RANDOM_KEY="$(shuf -n 1 keys.txt)"
           echo "$RANDOM_KEY" > guncel_key.txt
           
