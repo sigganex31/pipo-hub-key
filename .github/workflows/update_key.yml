@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write # Depoya geri dosya yazabilmesi için şarttır
+  contents: write
 
 jobs:
   update-key:
@@ -25,3 +25,12 @@ jobs:
           git add guncel_key.txt
           git commit -m "Günlük key otomatik güncellendi" || exit 0
           git push
+
+      - name: Discord'a Bildirim Gönder
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          CURRENT_KEY=$(cat guncel_key.txt)
+          curl -H "Content-Type: application/json" \
+               -d "{\"content\": \"⚡ **Pipo Hub Günlük Key'i Yenilendi!** ⚡\n🔑 **Bugünün Key'i:** \`$CURRENT_KEY\`\nBu key 24 saat boyunca geçerlidir!@everyone\"}" \
+               $DISCORD_WEBHOOK
