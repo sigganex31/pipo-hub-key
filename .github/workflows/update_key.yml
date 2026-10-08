@@ -28,9 +28,9 @@ jobs:
 
       - name: Discord'a Bildirim Gönder
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORDWEBHOOK: ${{ secrets.DISCORDWEBHOOK }}
         run: |
           CURRENT_KEY=$(cat guncel_key.txt)
           curl -H "Content-Type: application/json" \
                -d "{\"content\": \"⚡ **Pipo Hub Günlük Key'i Yenilendi!** ⚡\n🔑 **Bugünün Key'i:** \`$CURRENT_KEY\`\nBu key 24 saat boyunca geçerlidir!@everyone\"}" \
-               $DISCORD_WEBHOOK
+               $DISCORDWEBHOOK
